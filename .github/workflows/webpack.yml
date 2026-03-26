@@ -21,14 +21,15 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Project
         run: npm run build
 
-      - name: Deploy to Build Branch
-        uses: s0/git-publish-subdir-action@develop
+      - name: Deploy to GitHub Pages
+        uses: s0/git-publish-subdir-action@v4
         with:
-          BRANCH: build
+          BRANCH: gh-pages
           FOLDER: dist
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
