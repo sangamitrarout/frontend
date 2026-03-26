@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: s0/git-publish-subdir-action@v4
+        uses: s0/git-publish-subdir-action@master
         with:
           BRANCH: gh-pages
           FOLDER: dist
