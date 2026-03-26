@@ -15,14 +15,17 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3   # safer version
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./backend   # 👈 points to backend folder
+
     - name: Build
-      run: |
-        npm install
-        npx webpack
+      run: npx webpack
+      working-directory: ./backend   
