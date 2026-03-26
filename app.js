@@ -1,3 +1,36 @@
+const backendURL = "https://backend-sangamitra.onrender.com/api/word";
+
+// Add a word
+document.getElementById("addWordForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const word = document.getElementById("newWord").value.trim();
+  const definition = document.getElementById("newDefinition").value.trim();
+
+  if (!word || !definition) {
+    document.getElementById("addResponse").innerText = "Please enter both word and definition.";
+    return;
+  }
+
+  try {
+    const response = await fetch(backendURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ word, definition })
+    });
+
+    const data = await response.json();
+    if (data.error) {
+      document.getElementById("addResponse").innerText = data.error;
+    } else {
+      document.getElementById("addResponse").innerText = `✅ Added: ${data.word}`;
+    }
+  } catch (error) {
+    document.getElementById("addResponse").innerText = "Error adding word.";
+    console.error(error);
+  }
+});
+
+// Search a word
 async function searchWord() {
   const word = document.getElementById("wordInput").value.trim();
   if (!word) {
@@ -6,26 +39,14 @@ async function searchWord() {
   }
 
   try {
-    // Call your backend route with the word
-    const response = await fetch(`https://backend-sangamitra.onrender.com/dictionary/${word}`);
-
-    if (!response.ok) {
-      document.getElementById("result").innerText = "Word not found.";
-      return;
-    }
-
+    const response = await fetch(`${backendURL}/${word}`);
     const data = await response.json();
 
-    // Check if backend returned an error
     if (data.error) {
       document.getElementById("result").innerText = data.error;
-      return;
+    } else {
+      document.getElementById("result").innerText = `${data.word}: ${data.definition}`;
     }
-
-    // Extract definition from dictionary API structure
-    const definition = data[0].meanings[0].definitions[0].definition;
-
-    document.getElementById("result").innerText = `${word}: ${definition}`;
   } catch (error) {
     document.getElementById("result").innerText = "Error fetching definition.";
     console.error(error);
