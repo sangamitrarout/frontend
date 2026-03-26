@@ -12,6 +12,13 @@
     <button onclick="searchWord()">Search</button>
     <div id="result"></div>
   </div>
-  <script src="app.js"></script>
+  <h2>Add a Word</h2>
+<form id="addWordForm">
+  <input type="text" id="newWord" placeholder="Enter word" required />
+  <input type="text" id="newDefinition" placeholder="Enter definition" required />
+  <button type="submit">Add Word</button>
+</form>
+<div id="addResponse"></div>
+<script src="app.js"></script>
 </body>
 </html>
